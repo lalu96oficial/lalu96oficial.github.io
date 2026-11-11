@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lalu96 | Diseño y Edición de Vídeo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #FAFAF7;
+            color: #44403C;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #E97451, #D89873);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #E97451, #D89873);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(233, 116, 81, 0.6);
+        }
+        .card-hover {
+            transition: all 0.4s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #toast {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s linear;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Navegación -->
+    <nav class="fixed w-full z-50 bg-[#FAFAF7]/90 backdrop-blur-md border-b border-stone-200/50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="text-2xl font-bold tracking-tight text-stone-800">lalu<span class="text-[#E97451]">96</span></a>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-stone-600">
+                    <a href="#sobre-mi" class="hover:text-[#E97451] transition-colors">Sobre Mí</a>
+                    <a href="#servicios" class="hover:text-[#E97451] transition-colors">Servicios</a>
+                    <a href="#proyectos" class="hover:text-[#E97451] transition-colors">Proyectos</a>
+                    <a href="#contacto" class="px-5 py-2 rounded-full bg-stone-100 hover:bg-stone-200 transition-colors">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
+        <div class="max-w-4xl mx-auto text-center fade-in">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100/50 text-[#E97451] text-sm font-bold mb-6">
+                ✨ Especialista en estética cuidada
+            </div>
+            <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight text-stone-800">
+                Dando vida a tus ideas con <br class="hidden md:block" />
+                <span class="gradient-text">creatividad y calidez</span>
+            </h1>
+            <p class="text-lg lg:text-xl text-stone-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Ofrezco servicios integrales de diseño gráfico y edición de vídeo. 
+                Construyo narrativas visuales entrañables, estéticas adorables y contenido audiovisual 
+                que conecta de verdad con tu audiencia.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#servicios" class="btn-primary text-white font-bold py-4 px-8 rounded-full shadow-md">
+                    Ver mis servicios
+                </a>
+                <a href="#proyectos" class="bg-white text-stone-700 font-bold py-4 px-8 rounded-full border border-stone-200 hover:border-stone-300 shadow-sm transition-all">
+                    Explorar portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Mí -->
+    <section id="sobre-mi" class="py-24 bg-white px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center fade-in">
+            <div class="aspect-square bg-stone-100 rounded-[3rem] overflow-hidden relative shadow-inner">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Espacio de trabajo creativo" class="object-cover w-full h-full opacity-90 mix-blend-multiply">
+            </div>
+            <div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-stone-800">Contando historias <br/>a través del diseño</h2>
+                <p class="text-stone-500 text-lg leading-relaxed mb-6">
+                    Me apasiona dar vida a proyectos audiovisuales con alma. Desde el montaje dinámico de vídeos y YouTube Shorts, hasta el diseño de identidades visuales completas. 
+                </p>
+                <p class="text-stone-500 text-lg leading-relaxed mb-8">
+                    Mi enfoque huye de lo frío y corporativo; busco siempre un estilo "cozy", cercano y cálido que haga sentir bien a quien lo ve. Manejo herramientas de edición profesional y me involucro en cada fotograma y cada trazo.
+                </p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="border-l-4 border-[#E97451] pl-4">
+                        <h4 class="font-bold text-stone-800 text-xl">100%</h4>
+                        <p class="text-sm text-stone-500">Atención al detalle</p>
+                    </div>
+                    <div class="border-l-4 border-[#D89873] pl-4">
+                        <h4 class="font-bold text-stone-800 text-xl">10+</h4>
+                        <p class="text-sm text-stone-500">Proyectos narrativos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4 text-stone-800">Servicios Destacados</h2>
+                <p class="text-stone-500 text-lg">Soluciones creativas adaptadas a tus necesidades.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                <!-- Servicio 1: Diseño Gráfico -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-stone-100 card-hover fade-in">
+                    <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        🎨
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-stone-800">Diseño Gráfico</h3>
+                    <p class="text-stone-500 mb-6 line-clamp-3">
+                        Creación de identidades visuales, logotipos, banners y miniaturas. Todo diseñado bajo una dirección de arte cuidada, amable y atractiva.
+                    </p>
+                    <button onclick="seleccionarServicio('Diseño Gráfico')" class="w-full py-3 rounded-xl bg-stone-50 text-stone-700 font-bold hover:bg-[#E97451] hover:text-white transition-colors">
+                        Solicitar presupuesto
+                    </button>
+                </div>
+
+                <!-- Servicio 2: Edición de Vídeo -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-[#E97451]/20 relative card-hover fade-in transform md:-translate-y-4">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-[#E97451]/20 relative card-hover fade-in">
+                    <div class="absolute top-0 right-0 bg-[#E97451] text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-3xl">
+                        Más popular
+                    </div>
+                    <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        🎬
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-stone-800">Edición de Vídeo</h3>
+                    <p class="text-stone-500 mb-6 line-clamp-3">
+                        Montaje dinámico para YouTube, Reels y Shorts. Ritmo impecable, corrección de color cálida, subtítulos atractivos y diseño sonoro envolvente.
+                    </p>
+                    <button onclick="seleccionarServicio('Edición de Vídeo')" class="btn-primary w-full py-3 rounded-xl text-white font-bold shadow-sm">
+                        Solicitar presupuesto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proyectos" class="py-24 bg-white px-6 border-t border-stone-100">
+        <div class="max-w-6xl mx-auto fade-in">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center text-stone-800">Últimos Proyectos</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="group cursor-pointer rounded-3xl overflow-hidden relative shadow-sm">
+                    <div class="aspect-video bg-stone-200 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2670&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" alt="Edición de corto animado">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                        <h4 class="text-white text-2xl font-bold mb-2">Narrativa Audiovisual</h4>
+                        <p class="text-stone-200">Montaje y edición de cortos entrañables.</p>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer rounded-3xl overflow-hidden relative shadow-sm">
+                    <div class="aspect-video bg-stone-200 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2671&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" alt="Diseño de branding">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                        <h4 class="text-white text-2xl font-bold mb-2">Identidad Visual Cozy</h4>
+                        <p class="text-stone-200">Branding y paleta de colores para marca personal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-24 px-6">
+        <div class="max-w-3xl mx-auto bg-white p-10 md:p-14 rounded-[3rem] shadow-sm border border-stone-100 fade-in">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4 text-stone-800">¿Hablamos?</h2>
+                <p class="text-stone-500">Cuéntame sobre tu proyecto y le daremos la forma perfecta.</p>
+            </div>
+            <form id="contactForm" class="space-y-6" onsubmit="enviarFormulario(event)">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-2">Nombre</label>
+                        <input type="text" required class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none" placeholder="Tu nombre">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-2">Email</label>
+                        <input type="email" required class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none" placeholder="hola@ejemplo.com">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-stone-700 mb-2">Servicio de interés</label>
+                    <select id="servicioSelect" class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none appearance-none">
+                        <option value="">Selecciona una opción...</option>
+                        <option value="Diseño Gráfico">Diseño Gráfico</option>
+                        <option value="Edición de Vídeo">Edición de Vídeo</option>
+                        <option value="Creación de Contenido">Creación de Contenido</option>
+                        <option value="Otro">Otro proyecto</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-stone-700 mb-2">Mensaje</label>
+                    <textarea rows="4" required class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none resize-none" placeholder="Cuéntame los detalles..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-lg shadow-md">Enviar mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-10 border-t border-stone-100 text-center">
+        <p class="text-stone-400 text-sm font-semibold">
+            © 2026 lalu96. Creado con cariño.
+        </p>
+    </footer>
+
+    <!-- Notificación Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-stone-800 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 z-50">
+        <span class="text-xl">✨</span>
+        <div>
+            <h4 class="font-bold text-sm">¡Elección guardada!</h4>
+            <p class="text-xs text-stone-300">Completa el formulario para continuar.</p>
+        </div>
+    </div>
+
+    <!-- Scripts de interactividad -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+        function seleccionarServicio(servicio) {
+            const select = document.getElementById('servicioSelect');
+            select.value = servicio;
+            
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+
+            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarFormulario(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const textoOriginal = btn.innerText;
+            
+            btn.innerText = 'Enviando...';
+            btn.style.opacity = '0.8';
+
+            setTimeout(() => {
+                btn.innerText = '¡Mensaje enviado con éxito! 💌';
+                btn.style.background = '#4CAF50';
+                btn.style.boxShadow = 'none';
+                e.target.reset();
+                
+                setTimeout(() => {
+                    btn.innerText = textoOriginal;
+                    btn.style.background = '';
+                    btn.style.opacity = '1';
+                }, 4000);
+            }, 1500);
+        }
+    </script>
+</body>
+                  </html>
