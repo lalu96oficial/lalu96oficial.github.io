@@ -440,9 +440,10 @@
           <label for="mensaje">Mensaje</label>
           <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntame los detalles…"></textarea>
         </div>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="form-note">
           <button type="submit" class="btn btn-light">Enviar mensaje <span class="arrow">→</span></button>
-          <small>Se abrirá tu aplicación de correo con el mensaje preparado.</small>
+          <small id="formStatus">Te responderé a tu email lo antes posible.</small>
         </div>
       </form>
     </div>
@@ -503,19 +504,53 @@
     showToast('Servicio seleccionado: completa el formulario para continuar');
   }));
 
-  document.getElementById('contactForm').addEventListener('submit', e => {
+  // El formulario se envía con FormSubmit (formsubmit.co), que reenvía cada mensaje a CONTACT_EMAIL.
+  // Funciona igual en PC y en móvil: no necesita que el visitante tenga un programa de correo.
+  const form = document.getElementById('contactForm');
+  const formStatus = document.getElementById('formStatus');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitHTML = submitBtn.innerHTML;
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const f = e.target;
-    if (!f.checkValidity()) {
+    if (!form.checkValidity()) {
       showToast('Rellena tu nombre, un email válido y el mensaje');
-      f.querySelector(':invalid').focus();
+      form.querySelector(':invalid').focus();
       return;
     }
-    const servicio = f.servicio.value || 'Consulta general';
-    const asunto = `Nuevo proyecto: ${servicio}`;
-    const cuerpo = `Nombre: ${f.nombre.value}\nEmail: ${f.email.value}\nServicio: ${servicio}\n\n${f.mensaje.value}`;
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
-    showToast('Abriendo tu correo…');
+    if (form._honey.value) return; // relleno por un robot de spam
+
+    const servicio = form.servicio.value || 'Consulta general';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando…';
+
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          Nombre: form.nombre.value,
+          Email: form.email.value,
+          Servicio: servicio,
+          Mensaje: form.mensaje.value,
+          _subject: `Nuevo proyecto desde la web: ${servicio}`,
+          _replyto: form.email.value,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) !== 'true') throw new Error(data.message || res.status);
+      form.reset();
+      formStatus.textContent = '¡Gracias! Tu mensaje ha llegado. Te responderé muy pronto.';
+      showToast('Mensaje enviado ✓');
+    } catch (err) {
+      formStatus.innerHTML = `No se ha podido enviar. Escríbeme directamente a <a href="mailto:${CONTACT_EMAIL}" style="color:#E9C9B4;text-decoration:underline">${CONTACT_EMAIL}</a>`;
+      showToast('No se ha podido enviar el mensaje');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = submitHTML;
+    }
   });
 </script>
 </body>
