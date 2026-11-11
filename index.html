@@ -1,297 +1,522 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lalu96 | Diseño y Edición de Vídeo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #FAFAF7;
-            color: #44403C;
-            scroll-behavior: smooth;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #E97451, #D89873);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #E97451, #D89873);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -10px rgba(233, 116, 81, 0.6);
-        }
-        .card-hover {
-            transition: all 0.4s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-        }
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        #toast {
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity 0.3s linear;
-        }
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lalu96 · Diseño gráfico y edición de vídeo</title>
+<meta name="description" content="Estudio creativo de diseño gráfico y edición de vídeo. Identidades visuales, miniaturas, YouTube, Reels y Shorts con una estética cálida y cuidada.">
+<meta property="og:title" content="lalu96 · Diseño gráfico y edición de vídeo">
+<meta property="og:description" content="Identidades visuales y contenido audiovisual con una estética cálida y cuidada.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F6F2EC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F1B18'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='34' font-style='italic' fill='%23E9C9B4'%3El%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F2EC;
+    --surface: #FBF9F5;
+    --ink: #1F1B18;
+    --ink-soft: #5E554E;
+    --muted: #8F857C;
+    --line: #E2DAD0;
+    --accent: #A9573B;
+    --accent-soft: #E9C9B4;
+    --dark: #1F1B18;
+    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --max: 1180px;
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+
+  /* Tipografía */
+  .eyebrow {
+    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+    font-weight: 600; color: var(--accent);
+    display: inline-flex; align-items: center; gap: 14px;
+  }
+  .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; letter-spacing: -.01em; }
+  h1 { font-size: clamp(48px, 7.4vw, 104px); line-height: .98; }
+  h2 { font-size: clamp(38px, 4.6vw, 62px); line-height: 1.05; }
+  h3 { font-size: 32px; line-height: 1.15; }
+  em { font-style: italic; color: var(--accent); }
+  p { margin: 0; }
+  .lead { font-size: 19px; color: var(--ink-soft); font-weight: 300; max-width: 34em; }
+
+  /* Botones */
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 14px; font-weight: 600; letter-spacing: .04em;
+    padding: 17px 30px; border-radius: 999px; border: 1px solid var(--ink);
+    cursor: pointer; transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+    font-family: var(--sans);
+  }
+  .btn-dark { background: var(--ink); color: var(--bg); }
+  .btn-dark:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-ghost { background: transparent; color: var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: var(--bg); }
+  .btn .arrow { transition: transform .3s var(--ease); }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  /* Navegación */
+  header.nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    transition: background .4s var(--ease), border-color .4s var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  header.nav.scrolled {
+    background: rgba(246, 242, 236, .88);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+  .logo { font-family: var(--serif); font-size: 30px; font-weight: 500; letter-spacing: -.01em; }
+  .logo i { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 40px; font-size: 14px; font-weight: 500; }
+  .nav-links a:not(.btn) { position: relative; color: var(--ink-soft); transition: color .3s; }
+  .nav-links a:not(.btn)::after {
+    content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 1px;
+    background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease);
+  }
+  .nav-links a:not(.btn):hover { color: var(--ink); }
+  .nav-links a:not(.btn):hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-links .btn { padding: 11px 22px; }
+  .menu-btn { display: none; background: none; border: 0; padding: 8px; cursor: pointer; color: var(--ink); }
+  .menu-btn span { display: block; width: 24px; height: 1.5px; background: currentColor; margin: 6px 0; transition: transform .3s, opacity .3s; }
+
+  /* Hero */
+  .hero { padding: 170px 0 110px; }
+  .hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 72px; align-items: end; }
+  .hero h1 { margin: 28px 0 36px; }
+  .hero .lead { margin-bottom: 44px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+  .hero-figure { position: relative; }
+  .hero-figure .frame { aspect-ratio: 4 / 5; overflow: hidden; border-radius: 220px 220px 4px 4px; background: var(--line); }
+  .hero-figure img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-figure figcaption {
+    position: absolute; left: -36px; bottom: 40px;
+    background: var(--surface); padding: 16px 22px; border: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+  }
+  .hero-figure figcaption strong { display: block; font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink); }
+
+  /* Franja */
+  .marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; padding: 22px 0; }
+  .marquee-track { display: flex; gap: 56px; width: max-content; animation: slide 38s linear infinite; }
+  .marquee span { font-family: var(--serif); font-style: italic; font-size: 28px; color: var(--ink-soft); white-space: nowrap; display: inline-flex; align-items: center; gap: 56px; }
+  .marquee span::after { content: "✦"; font-style: normal; font-size: 14px; color: var(--accent); }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* Secciones */
+  section { scroll-margin-top: 84px; }
+  .section { padding: 140px 0; }
+  .section-head { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: end; margin-bottom: 80px; }
+  .section-head h2 { margin-top: 22px; }
+
+  /* Sobre mí */
+  .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 96px; align-items: center; }
+  .about-img { aspect-ratio: 4 / 5; overflow: hidden; border-radius: 4px; background: var(--line); }
+  .about-img img { width: 100%; height: 100%; object-fit: cover; }
+  .about-text h2 { margin: 22px 0 36px; }
+  .about-text p + p { margin-top: 20px; }
+  .about-text p { color: var(--ink-soft); font-weight: 300; font-size: 18px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; margin-top: 56px; border-top: 1px solid var(--line); }
+  .stat { padding: 28px 0 0; }
+  .stat + .stat { padding-left: 32px; border-left: 1px solid var(--line); }
+  .stat b { display: block; font-family: var(--serif); font-weight: 500; font-size: 56px; line-height: 1; }
+  .stat small { font-size: 13px; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
+
+  /* Servicios */
+  .services { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .service-list { border-top: 1px solid var(--ink); }
+  .service {
+    display: grid; grid-template-columns: 90px 1fr 1.1fr auto; gap: 48px; align-items: start;
+    padding: 56px 0; border-bottom: 1px solid var(--line);
+  }
+  .service .num { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--accent); padding-top: 6px; }
+  .service h3 { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .tag { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-soft); padding: 5px 10px; border-radius: 999px; }
+  .service p { color: var(--ink-soft); font-weight: 300; }
+  .service ul { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .service li { font-size: 13px; color: var(--ink-soft); background: var(--bg); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; }
+  .service .btn { padding: 13px 22px; white-space: nowrap; }
+
+  /* Proyectos */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .project:nth-child(2) { margin-top: 120px; }
+  .project-img { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 4px; background: var(--line); }
+  .project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .project:hover .project-img img { transform: scale(1.04); }
+  .project-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding-top: 24px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+  .project-meta h3 { font-size: 30px; }
+  .project-meta p { color: var(--ink-soft); font-weight: 300; font-size: 15px; margin-top: 6px; }
+  .project-meta .cat { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+  /* Contacto */
+  .contact { background: var(--dark); color: #EDE6DD; }
+  .contact .eyebrow { color: var(--accent-soft); }
+  .contact h2 em { color: var(--accent-soft); }
+  .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 96px; }
+  .contact-intro h2 { margin: 22px 0 28px; }
+  .contact-intro p { color: #B8ADA2; font-weight: 300; max-width: 26em; }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 36px 32px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #9C9187; font-weight: 500; }
+  input, select, textarea {
+    font: inherit; font-weight: 300; color: #F6F2EC; background: transparent;
+    border: 0; border-bottom: 1px solid #4A423C; padding: 10px 0 14px; border-radius: 0;
+    outline: none; transition: border-color .3s; width: 100%;
+  }
+  input::placeholder, textarea::placeholder { color: #6E645C; }
+  input:focus, select:focus, textarea:focus { border-bottom-color: var(--accent-soft); }
+  select { appearance: none; -webkit-appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239C9187' stroke-width='1.3' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 2px center; }
+  select option { color: var(--ink); background: var(--bg); }
+  textarea { resize: vertical; min-height: 120px; }
+  .contact .btn-light { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+  .contact .btn-light:hover { background: var(--accent-soft); border-color: var(--accent-soft); }
+  .form-note { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+  .form-note small { color: #8A7F75; font-size: 13px; }
+
+  footer { background: var(--dark); color: #8A7F75; border-top: 1px solid #332C27; }
+  .foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 32px 0; font-size: 13px; }
+  .foot .logo { color: #EDE6DD; font-size: 24px; }
+  .foot .logo i { color: var(--accent-soft); }
+  .to-top { color: #B8ADA2; transition: color .3s; }
+  .to-top:hover { color: #F6F2EC; }
+
+  /* Aviso */
+  #toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); z-index: 60;
+    background: var(--ink); color: var(--bg); padding: 14px 24px; border-radius: 999px;
+    font-size: 14px; opacity: 0; pointer-events: none; transition: opacity .35s, transform .35s var(--ease);
+    box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); max-width: calc(100% - 32px); text-align: center;
+  }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* Animación de entrada */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .marquee-track { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    .hero-grid, .about-grid, .contact-grid, .section-head { grid-template-columns: 1fr; gap: 56px; }
+    .hero-figure { max-width: 440px; }
+    .hero-figure figcaption { left: auto; right: -12px; }
+    .service { grid-template-columns: 60px 1fr; gap: 20px 24px; }
+    .service > p, .service > div:last-child { grid-column: 2; }
+    .section { padding: 104px 0; }
+  }
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 20px; }
+    .nav-inner { height: 72px; }
+    .menu-btn { display: block; }
+    .nav-links {
+      position: fixed; inset: 72px 0 auto 0; flex-direction: column; align-items: flex-start; gap: 0;
+      background: var(--bg); border-bottom: 1px solid var(--line); padding: 8px 20px 24px;
+      transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--ease);
+    }
+    .nav-links a:not(.btn) { width: 100%; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+    .nav-links a:not(.btn)::after { display: none; }
+    .nav-links .btn { margin-top: 20px; }
+    header.nav.open { background: var(--bg); border-bottom-color: var(--line); }
+    header.nav.open .nav-links { opacity: 1; transform: none; pointer-events: auto; }
+    header.nav.open .menu-btn span:first-child { transform: translateY(3.75px) rotate(45deg); }
+    header.nav.open .menu-btn span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+    .hero { padding: 128px 0 80px; }
+    .hero h1 { margin: 22px 0 26px; }
+    .hero .lead, .lead { font-size: 17px; }
+    .hero-figure figcaption { right: 0; bottom: 20px; }
+    .section { padding: 88px 0; }
+    .section-head { margin-bottom: 48px; gap: 24px; }
+    .about-grid { gap: 48px; }
+    .stat b { font-size: 44px; }
+    .stat + .stat { padding-left: 20px; }
+    .service { grid-template-columns: 1fr; padding: 40px 0; gap: 16px; }
+    .service > p, .service > div:last-child { grid-column: 1; }
+    .projects-grid { grid-template-columns: 1fr; gap: 56px; }
+    .project:nth-child(2) { margin-top: 0; }
+    .project-meta { flex-direction: column; gap: 6px; }
+    .project-meta .cat { order: -1; }
+    form { grid-template-columns: 1fr; gap: 28px; }
+    .marquee span { font-size: 22px; }
+    .foot { flex-direction: column; text-align: center; }
+  }
+</style>
 </head>
-<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+<body>
 
-    <!-- Navegación -->
-    <nav class="fixed w-full z-50 bg-[#FAFAF7]/90 backdrop-blur-md border-b border-stone-200/50 transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="#" class="text-2xl font-bold tracking-tight text-stone-800">lalu<span class="text-[#E97451]">96</span></a>
-                <div class="hidden md:flex space-x-8 text-sm font-semibold text-stone-600">
-                    <a href="#sobre-mi" class="hover:text-[#E97451] transition-colors">Sobre Mí</a>
-                    <a href="#servicios" class="hover:text-[#E97451] transition-colors">Servicios</a>
-                    <a href="#proyectos" class="hover:text-[#E97451] transition-colors">Proyectos</a>
-                    <a href="#contacto" class="px-5 py-2 rounded-full bg-stone-100 hover:bg-stone-200 transition-colors">Contacto</a>
-                </div>
-            </div>
-        </div>
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#inicio" class="logo">lalu<i>96</i></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto" class="btn btn-ghost">Contacto</a>
     </nav>
+  </div>
+</header>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
-        <div class="max-w-4xl mx-auto text-center fade-in">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100/50 text-[#E97451] text-sm font-bold mb-6">
-                ✨ Especialista en estética cuidada
-            </div>
-            <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight text-stone-800">
-                Dando vida a tus ideas con <br class="hidden md:block" />
-                <span class="gradient-text">creatividad y calidez</span>
-            </h1>
-            <p class="text-lg lg:text-xl text-stone-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Ofrezco servicios integrales de diseño gráfico y edición de vídeo. 
-                Construyo narrativas visuales entrañables, estéticas adorables y contenido audiovisual 
-                que conecta de verdad con tu audiencia.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#servicios" class="btn-primary text-white font-bold py-4 px-8 rounded-full shadow-md">
-                    Ver mis servicios
-                </a>
-                <a href="#proyectos" class="bg-white text-stone-700 font-bold py-4 px-8 rounded-full border border-stone-200 hover:border-stone-300 shadow-sm transition-all">
-                    Explorar portfolio
-                </a>
-            </div>
+<main id="inicio">
+  <!-- Inicio -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">Diseño gráfico · Edición de vídeo</span>
+        <h1>Dando vida a tus ideas con <em>creatividad</em> y calidez</h1>
+        <p class="lead">Ofrezco servicios integrales de diseño gráfico y edición de vídeo. Construyo narrativas visuales entrañables, estéticas cuidadas y contenido audiovisual que conecta de verdad con tu audiencia.</p>
+        <div class="hero-actions">
+          <a href="#servicios" class="btn btn-dark">Ver mis servicios <span class="arrow">→</span></a>
+          <a href="#proyectos" class="btn btn-ghost">Explorar portfolio</a>
         </div>
-    </section>
-
-    <!-- Sobre Mí -->
-    <section id="sobre-mi" class="py-24 bg-white px-6">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center fade-in">
-            <div class="aspect-square bg-stone-100 rounded-[3rem] overflow-hidden relative shadow-inner">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Espacio de trabajo creativo" class="object-cover w-full h-full opacity-90 mix-blend-multiply">
-            </div>
-            <div>
-                <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-stone-800">Contando historias <br/>a través del diseño</h2>
-                <p class="text-stone-500 text-lg leading-relaxed mb-6">
-                    Me apasiona dar vida a proyectos audiovisuales con alma. Desde el montaje dinámico de vídeos y YouTube Shorts, hasta el diseño de identidades visuales completas. 
-                </p>
-                <p class="text-stone-500 text-lg leading-relaxed mb-8">
-                    Mi enfoque huye de lo frío y corporativo; busco siempre un estilo "cozy", cercano y cálido que haga sentir bien a quien lo ve. Manejo herramientas de edición profesional y me involucro en cada fotograma y cada trazo.
-                </p>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="border-l-4 border-[#E97451] pl-4">
-                        <h4 class="font-bold text-stone-800 text-xl">100%</h4>
-                        <p class="text-sm text-stone-500">Atención al detalle</p>
-                    </div>
-                    <div class="border-l-4 border-[#D89873] pl-4">
-                        <h4 class="font-bold text-stone-800 text-xl">10+</h4>
-                        <p class="text-sm text-stone-500">Proyectos narrativos</p>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <figure class="hero-figure reveal" style="margin:0">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200&auto=format&fit=crop" alt="Muestras de color y bocetos sobre una mesa de diseño" fetchpriority="high">
         </div>
-    </section>
-
-    <!-- Servicios -->
-    <section id="servicios" class="py-24 px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-4 text-stone-800">Servicios Destacados</h2>
-                <p class="text-stone-500 text-lg">Soluciones creativas adaptadas a tus necesidades.</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-                <!-- Servicio 1: Diseño Gráfico -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-stone-100 card-hover fade-in">
-                    <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 text-2xl">
-                        🎨
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-stone-800">Diseño Gráfico</h3>
-                    <p class="text-stone-500 mb-6 line-clamp-3">
-                        Creación de identidades visuales, logotipos, banners y miniaturas. Todo diseñado bajo una dirección de arte cuidada, amable y atractiva.
-                    </p>
-                    <button onclick="seleccionarServicio('Diseño Gráfico')" class="w-full py-3 rounded-xl bg-stone-50 text-stone-700 font-bold hover:bg-[#E97451] hover:text-white transition-colors">
-                        Solicitar presupuesto
-                    </button>
-                </div>
-
-                <!-- Servicio 2: Edición de Vídeo -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-[#E97451]/20 relative card-hover fade-in transform md:-translate-y-4">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-[#E97451]/20 relative card-hover fade-in">
-                    <div class="absolute top-0 right-0 bg-[#E97451] text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-3xl">
-                        Más popular
-                    </div>
-                    <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 text-2xl">
-                        🎬
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-stone-800">Edición de Vídeo</h3>
-                    <p class="text-stone-500 mb-6 line-clamp-3">
-                        Montaje dinámico para YouTube, Reels y Shorts. Ritmo impecable, corrección de color cálida, subtítulos atractivos y diseño sonoro envolvente.
-                    </p>
-                    <button onclick="seleccionarServicio('Edición de Vídeo')" class="btn-primary w-full py-3 rounded-xl text-white font-bold shadow-sm">
-                        Solicitar presupuesto
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="proyectos" class="py-24 bg-white px-6 border-t border-stone-100">
-        <div class="max-w-6xl mx-auto fade-in">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center text-stone-800">Últimos Proyectos</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="group cursor-pointer rounded-3xl overflow-hidden relative shadow-sm">
-                    <div class="aspect-video bg-stone-200 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2670&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" alt="Edición de corto animado">
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                        <h4 class="text-white text-2xl font-bold mb-2">Narrativa Audiovisual</h4>
-                        <p class="text-stone-200">Montaje y edición de cortos entrañables.</p>
-                    </div>
-                </div>
-
-                <div class="group cursor-pointer rounded-3xl overflow-hidden relative shadow-sm">
-                    <div class="aspect-video bg-stone-200 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2671&auto=format&fit=crop" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" alt="Diseño de branding">
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                        <h4 class="text-white text-2xl font-bold mb-2">Identidad Visual Cozy</h4>
-                        <p class="text-stone-200">Branding y paleta de colores para marca personal.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contacto -->
-    <section id="contacto" class="py-24 px-6">
-        <div class="max-w-3xl mx-auto bg-white p-10 md:p-14 rounded-[3rem] shadow-sm border border-stone-100 fade-in">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold mb-4 text-stone-800">¿Hablamos?</h2>
-                <p class="text-stone-500">Cuéntame sobre tu proyecto y le daremos la forma perfecta.</p>
-            </div>
-            <form id="contactForm" class="space-y-6" onsubmit="enviarFormulario(event)">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-bold text-stone-700 mb-2">Nombre</label>
-                        <input type="text" required class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none" placeholder="Tu nombre">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-stone-700 mb-2">Email</label>
-                        <input type="email" required class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none" placeholder="hola@ejemplo.com">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-stone-700 mb-2">Servicio de interés</label>
-                    <select id="servicioSelect" class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none appearance-none">
-                        <option value="">Selecciona una opción...</option>
-                        <option value="Diseño Gráfico">Diseño Gráfico</option>
-                        <option value="Edición de Vídeo">Edición de Vídeo</option>
-                        <option value="Creación de Contenido">Creación de Contenido</option>
-                        <option value="Otro">Otro proyecto</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-stone-700 mb-2">Mensaje</label>
-                    <textarea rows="4" required class="w-full px-5 py-4 rounded-xl bg-stone-50 border-none focus:ring-2 focus:ring-[#E97451] transition-shadow text-stone-700 outline-none resize-none" placeholder="Cuéntame los detalles..."></textarea>
-                </div>
-                <button type="submit" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-lg shadow-md">Enviar mensaje</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-white py-10 border-t border-stone-100 text-center">
-        <p class="text-stone-400 text-sm font-semibold">
-            © 2026 lalu96. Creado con cariño.
-        </p>
-    </footer>
-
-    <!-- Notificación Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-stone-800 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 z-50">
-        <span class="text-xl">✨</span>
-        <div>
-            <h4 class="font-bold text-sm">¡Elección guardada!</h4>
-            <p class="text-xs text-stone-300">Completa el formulario para continuar.</p>
-        </div>
+        <figcaption><strong>Especialista</strong>en estética cuidada</figcaption>
+      </figure>
     </div>
+  </section>
 
-    <!-- Scripts de interactividad -->
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Identidad visual</span><span>Logotipos</span><span>Miniaturas</span><span>YouTube</span><span>Reels &amp; Shorts</span><span>Corrección de color</span><span>Diseño sonoro</span>
+      <span>Identidad visual</span><span>Logotipos</span><span>Miniaturas</span><span>YouTube</span><span>Reels &amp; Shorts</span><span>Corrección de color</span><span>Diseño sonoro</span>
+    </div>
+  </div>
 
-        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+  <!-- Sobre mí -->
+  <section id="sobre-mi" class="section">
+    <div class="wrap about-grid">
+      <div class="about-img reveal">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Formas abstractas en tonos suaves" loading="lazy">
+      </div>
+      <div class="about-text reveal">
+        <span class="eyebrow">Sobre mí</span>
+        <h2>Contando historias <em>a través</em> del diseño</h2>
+        <p>Me apasiona dar vida a proyectos audiovisuales con alma. Desde el montaje dinámico de vídeos y YouTube Shorts hasta el diseño de identidades visuales completas.</p>
+        <p>Mi enfoque huye de lo frío y corporativo: busco siempre un estilo cercano y cálido que haga sentir bien a quien lo ve. Trabajo con herramientas de edición profesional y me involucro en cada fotograma y en cada trazo.</p>
+        <div class="stats">
+          <div class="stat"><b>100%</b><small>Atención al detalle</small></div>
+          <div class="stat"><b>10+</b><small>Proyectos narrativos</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        function seleccionarServicio(servicio) {
-            const select = document.getElementById('servicioSelect');
-            select.value = servicio;
-            
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+  <!-- Servicios -->
+  <section id="servicios" class="section services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Servicios</span>
+          <h2>Soluciones creativas <em>a tu medida</em></h2>
+        </div>
+        <p class="lead">Dos disciplinas que se complementan: una imagen reconocible y un contenido audiovisual que la hace crecer.</p>
+      </div>
 
-            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
-        }
+      <div class="service-list">
+        <article class="service reveal">
+          <span class="num">01</span>
+          <h3>Diseño gráfico</h3>
+          <div>
+            <p>Creación de identidades visuales, logotipos, banners y miniaturas. Todo diseñado bajo una dirección de arte cuidada, amable y atractiva.</p>
+            <ul><li>Identidad visual</li><li>Logotipos</li><li>Banners</li><li>Miniaturas</li></ul>
+          </div>
+          <div><button class="btn btn-ghost" data-servicio="Diseño Gráfico">Solicitar presupuesto <span class="arrow">→</span></button></div>
+        </article>
 
-        function enviarFormulario(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            const textoOriginal = btn.innerText;
-            
-            btn.innerText = 'Enviando...';
-            btn.style.opacity = '0.8';
+        <article class="service reveal">
+          <span class="num">02</span>
+          <h3>Edición de vídeo <span class="tag">Más solicitado</span></h3>
+          <div>
+            <p>Montaje dinámico para YouTube, Reels y Shorts. Ritmo impecable, corrección de color cálida, subtítulos atractivos y diseño sonoro envolvente.</p>
+            <ul><li>YouTube</li><li>Reels &amp; Shorts</li><li>Color</li><li>Subtítulos</li><li>Sonido</li></ul>
+          </div>
+          <div><button class="btn btn-dark" data-servicio="Edición de Vídeo">Solicitar presupuesto <span class="arrow">→</span></button></div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-            setTimeout(() => {
-                btn.innerText = '¡Mensaje enviado con éxito! 💌';
-                btn.style.background = '#4CAF50';
-                btn.style.boxShadow = 'none';
-                e.target.reset();
-                
-                setTimeout(() => {
-                    btn.innerText = textoOriginal;
-                    btn.style.background = '';
-                    btn.style.opacity = '1';
-                }, 4000);
-            }, 1500);
-        }
-    </script>
+  <!-- Proyectos -->
+  <section id="proyectos" class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Proyectos</span>
+          <h2>Últimos <em>trabajos</em></h2>
+        </div>
+        <p class="lead">Una selección de piezas recientes de narrativa audiovisual e identidad de marca.</p>
+      </div>
+      <div class="projects-grid">
+        <article class="project reveal">
+          <div class="project-img">
+            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1400&auto=format&fit=crop" alt="Línea de tiempo de un programa de edición de vídeo" loading="lazy">
+          </div>
+          <div class="project-meta">
+            <div>
+              <h3>Narrativa audiovisual</h3>
+              <p>Montaje y edición de cortos entrañables.</p>
+            </div>
+            <span class="cat">Edición de vídeo</span>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="project-img">
+            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1400&auto=format&fit=crop" alt="Elementos de branding con paleta de colores" loading="lazy">
+          </div>
+          <div class="project-meta">
+            <div>
+              <h3>Identidad visual cálida</h3>
+              <p>Branding y paleta de colores para marca personal.</p>
+            </div>
+            <span class="cat">Branding</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="section contact">
+    <div class="wrap contact-grid">
+      <div class="contact-intro reveal">
+        <span class="eyebrow">Contacto</span>
+        <h2>¿Hablamos de tu <em>proyecto</em>?</h2>
+        <p>Cuéntame qué tienes en mente y le daremos la forma perfecta. Respondo personalmente a cada mensaje.</p>
+      </div>
+      <form id="contactForm" class="reveal" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required placeholder="Tu nombre" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required placeholder="hola@ejemplo.com" autocomplete="email">
+        </div>
+        <div class="field full">
+          <label for="servicio">Servicio de interés</label>
+          <select id="servicio" name="servicio">
+            <option value="">Selecciona una opción…</option>
+            <option value="Diseño Gráfico">Diseño gráfico</option>
+            <option value="Edición de Vídeo">Edición de vídeo</option>
+            <option value="Creación de Contenido">Creación de contenido</option>
+            <option value="Otro">Otro proyecto</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntame los detalles…"></textarea>
+        </div>
+        <div class="form-note">
+          <button type="submit" class="btn btn-light">Enviar mensaje <span class="arrow">→</span></button>
+          <small>Se abrirá tu aplicación de correo con el mensaje preparado.</small>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="logo">lalu<i>96</i></span>
+    <span>© <span id="year">2026</span> lalu96. Creado con cariño.</span>
+    <a href="#inicio" class="to-top">Volver arriba ↑</a>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Correo al que llegan los mensajes del formulario. Cámbialo por el tuyo.
+  const CONTACT_EMAIL = "tu-correo@ejemplo.com";
+
+  const nav = document.getElementById('nav');
+  const menuBtn = document.getElementById('menuBtn');
+  const toast = document.getElementById('toast');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
+
+  function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(showToast.t);
+    showToast.t = setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+
+  document.querySelectorAll('[data-servicio]').forEach(btn => btn.addEventListener('click', () => {
+    document.getElementById('servicio').value = btn.dataset.servicio;
+    document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+    showToast('Servicio seleccionado: completa el formulario para continuar');
+  }));
+
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    if (!f.checkValidity()) {
+      showToast('Rellena tu nombre, un email válido y el mensaje');
+      f.querySelector(':invalid').focus();
+      return;
+    }
+    const servicio = f.servicio.value || 'Consulta general';
+    const asunto = `Nuevo proyecto: ${servicio}`;
+    const cuerpo = `Nombre: ${f.nombre.value}\nEmail: ${f.email.value}\nServicio: ${servicio}\n\n${f.mensaje.value}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+    showToast('Abriendo tu correo…');
+  });
+</script>
 </body>
-                  </html>
+</html>
